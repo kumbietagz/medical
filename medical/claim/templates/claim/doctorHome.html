@@ -1,0 +1,51 @@
+{% extends 'claim/base.html' %}
+{% block side %}
+side-header
+        {% endblock %}
+
+{% block content %}
+
+		<!-- Header
+		============================================= -->
+		<header id="header" class="no-sticky">
+
+			<div id="header-wrap">
+
+				<div class="container clearfix">
+
+					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+                    			<!-- Logo
+					============================================= -->
+					<div id="logo" class="nobottomborder">
+					<h3>Doctor Dashboard</h3>
+					</div><!-- #logo end -->
+
+		
+
+					<!-- Primary Navigation
+					============================================= -->
+					<nav id="primary-menu">
+
+						<ul>
+							<li><a href="index.html"><div>Add Claim</div></a></li>
+                            <li><a href="index.html"><div>My Claims</div></a></li>
+				
+						</ul>
+
+					</nav><!-- #primary-menu end -->
+
+					<div class="clearfix d-none d-lg-block">
+                        <ul>
+                            <li><a href="{% url 'claim:logout' %}"><div>Logout</div></a></li>
+                        </ul>
+					</div>
+
+				</div>
+
+			</div>
+
+		</header><!-- #header end -->
+
+
+
+{% endblock %}
