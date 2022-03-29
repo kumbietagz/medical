@@ -27,9 +27,9 @@ side-header
 					<nav id="primary-menu">
 
 						<ul>
-							<li><a href="index.html"><div>Claims List</div></a></li>
-                            <li><a href="index.html"><div>Add Doctor</div></a></li>
-                            <li><a href="index.html"><div>Doctors List</div></a></li>
+							<li><a href="{% url 'claim:claims' %}"><div>Claims List</div></a></li>
+                            <li><a href="{% url 'claim:add-doctor' %}"><div>Add Doctor</div></a></li>
+                            <li><a href="{% url 'claim:doctors-list' %}"><div>Doctors List</div></a></li>
 							
 				
 						</ul>
@@ -48,6 +48,7 @@ side-header
 
 		</header><!-- #header end -->
 
-
+		{% block body %}
+        {% endblock %}
 
 {% endblock %}

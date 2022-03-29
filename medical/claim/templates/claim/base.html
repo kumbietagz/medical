@@ -16,6 +16,27 @@
 	<link rel="stylesheet" href="{% static 'claim/css/animate.css' %}" type="text/css" />
 	<link rel="stylesheet" href="{% static 'claim/css/magnific-popup.css' %}" type="text/css" />
 
+
+	<!-- Bootstrap File Upload CSS -->
+	<link rel="stylesheet" href="{% static 'claim/css/components/bs-filestyle.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'claim/css/components/select-boxes.css' %}" type="text/css" />
+	<!-- Bootstrap Select CSS -->
+	<link rel="stylesheet" href="{% static 'claim/css/components/bs-select.css' %}" type="text/css" />
+	<!-- Date & Time Picker CSS -->
+	<link rel="stylesheet" href="{% static 'claim/css/components/datepicker.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'claim/css/components/timepicker.css' %}" type="text/css" />
+
+	<!-- Range Slider CSS -->
+	<link rel="stylesheet" href="{% static 'claim/css/components/ion.rangeslider.css' %}" type="text/css" />
+
+	<!-- Star Rating CSS -->
+	<link rel="stylesheet" href="{% static 'claim/css/components/bs-rating.css' %}" type="text/css" />
+
+	<!-- Bootstrap Switch CSS -->
+	<link rel="stylesheet" href="{% static 'claim/css/components/bs-switches.css' %}" type="text/css" />
+
+
+
 	<link rel="stylesheet" href="{% static 'claim/css/responsive.css' %}" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -46,9 +67,77 @@
 	<script src="{% static 'claim/js/jquery.js' %}"></script>
 	<script src="{% static 'claim/js/plugins.js' %}"></script>
 
+
+	<!-- Bootstrap File Upload Plugin -->
+	<script src="{% static 'claim/js/components/bs-filestyle.js' %}"></script>
+
+	<!-- Select-Boxes Plugin -->
+	<script src="{% static 'claim/js/components/select-boxes.js' %}"></script>
+
+	<!-- Bootstrap Select Plugin -->
+	<script src="{% static 'claim/js/components/bs-select.js' %}"></script>
+
+	<!-- Date & Time Picker JS -->
+	<script src="{% static 'claim/js/components/moment.js' %}"></script>
+	<script src="{% static 'claim/js/components/datepicker.js' %}"></script>
+	<script src="{% static 'claim/js/components/timepicker.js' %}"></script>
+
+	<!-- Include Date Range Picker -->
+	<script src="{% static 'claim/js/components/daterangepicker.js' %}"></script>
+
+	<!-- Range Slider Plugin -->
+	<script src="{% static 'claim/js/components/rangeslider.min.js' %}"></script>
+
+	<!-- Star Rating Plugin -->
+	<script src="{% static 'claim/js/components/star-rating.js' %}"></script>
+
+	<!-- Select-Splitter Plugin -->
+	<script src="{% static 'claim/js/components/selectsplitter.js' %}"></script>
+
+	<!-- TinyMCE Plugin -->
+	<script src="{% static 'claim/js/components/tinymce/tinymce.min.js' %}"></script>
+
+
 	<!-- Footer Scripts
 	============================================= -->
 	<script src="{% static 'claim/js/functions.js' %}"></script>
+
+	<script>
+
+		jQuery(document).ready( function(){
+
+			jQuery(".range_01").ionRangeSlider({
+				grid: true,
+				min: 18,
+				max: 70,
+				from: {% block age%} {% endblock%},
+				prefix: "Age ",
+				max_postfix: "+"
+			});
+
+			jQuery(".select-tags").select2({
+				tags: true,
+				placeholder: "Add Values and Press Enter"
+			});
+
+			jQuery('.datetimepicker1').datetimepicker();
+
+			jQuery('.selectsplitter').selectsplitter();
+
+			tinymce.init({
+				selector: '.textarea-message',
+				menubar: false,
+				setup: function(editor) {
+					editor.on('change', function(e) {
+						editor.save();
+					});
+				}
+			});
+
+		});
+
+
+	</script>
 
 </body>
 </html>

@@ -1,0 +1,155 @@
+{% extends 'claim/claimsHome.html' %}
+{% block body %}
+<!-- Content
+		============================================= -->
+		<section id="content">
+
+			<div class="content-wrap bg-light">
+
+				<div class="container">
+
+					<div class="row justify-content-center">
+						<div class="col-lg-7 col-md-10">
+							<div class="card shadow-sm">
+								<div class="card-header">
+									<h4 class="mb-0 center" center>Claim Analysis</h4>
+								</div>
+								<div class="card-body">
+
+									<div class="form-windget">
+
+										<!--<div class="form-result"></div>
+
+										<div class="form-process css3-spinner">
+											<div class="css3-spinner-double-bounce1"></div>
+											<div class="css3-spinner-double-bounce2"></div>
+										</div>-->
+
+										<form class="nobottommargin" id="" name="template-contactform" action method="post" enctype="multipart/form-data">
+											
+											{% csrf_token %}
+											<div class="">
+
+												<div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputEmail4">Claimed Amount</label>
+                                                        <h6>{{claim.claimed}}</h6>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPassword4">Tariff Amount</label>
+                                                        <h6>{{claim.tariff}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputEmail4">Practice Number</label>
+                                                        <h6>{{claim.practice}}</h6>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPassword4">Description</label>
+                                                        <h6>{{claim.description}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputEmail4">Patient Age</label>
+                                                        <h6>{{claim.age}}</h6>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPassword4">Gender</label>
+                                                        <h6>{{claim.gender}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputEmail4">L Regression</label>
+                                                        {% if claim.logistics == "Proceed"%}
+                                                        <span class="badge badge-pill badge-success">Proceed</span>
+                                                        {% else %}
+                                                        <span class="badge badge-pill badge-warning">Possible Fraud</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPassword4">Gaussian NB</label>
+                                                        {% if claim.bayes == "Proceed"%}
+                                                        <span class="badge badge-pill badge-success">Proceed</span>
+                                                        {% else %}
+                                                        <span class="badge badge-pill badge-warning">Possible Fraud</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputEmail4">KNN Classifier</label>
+                                                        {% if claim.knn == "Proceed"%}
+                                                        <span class="badge badge-pill badge-success">Proceed</span>
+                                                        {% else %}
+                                                        <span class="badge badge-pill badge-warning">Possible Fraud</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPassword4">SVM Classifier</label>
+                                                        {% if claim.svm == "Proceed"%}
+                                                        <span class="badge badge-pill badge-success">Proceed</span>
+                                                        {% else %}
+                                                        <span class="badge badge-pill badge-warning">Possible Fraud</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputPassword4">ET Classifier</label>
+                                                        {% if claim.trees == "Proceed"%}
+                                                        <span class="badge badge-pill badge-success">Proceed</span>
+                                                        {% else %}
+                                                        <span class="badge badge-pill badge-warning">Possible Fraud</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputEmail4">RF Classifier</label>
+                                                        {% if claim.forests == "Proceed"%}
+                                                        <span class="badge badge-pill badge-success">Proceed</span>
+                                                        {% else %}
+                                                        <span class="badge badge-pill badge-warning">Possible Fraud</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>  
+                                                <div class="col-12 bottommargin-sm">
+													<label for="template-contactform-default-select">Approval:</label>
+													<select id="template-contactform-default-select" name="approval" class="form-control" required>
+														<option value="Appending" {% if claim.approval == 'Pennding' %}selected {% endif %}>Pending</option>
+														<option value="Approved" {% if claim.approval == 'Approved' %}selected {% endif %}>Approved</option>
+														<option value="Rejected" {% if claim.approval == 'Rejected' %}selected {% endif %}>Rejected</option>
+													</select>
+												</div>
+
+												
+												
+												<div class="col-12 hidden">
+													<input type="text" id="template-contactform-botcheck" name="template-contactform-botcheck" value="" />
+												</div>
+												<div class="col-12">
+													<button type="submit" name="template-contactform-submit" class="btn btn-secondary btn-block btn-lg">Save</button>
+												</div>
+
+												<input type="hidden" name="prefix" value="template-contactform-">
+
+											</div>
+
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</section><!-- #content end -->
+
+
+
+{% endblock %}
