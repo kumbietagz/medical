@@ -14,4 +14,5 @@ urlpatterns = [
     path('claimDetail/<int:claim_id>', views.claimDetail, name='detail'),
     path('addDoctor', views.addDoctor, name='add-doctor'),
     path('doctorsList', views.doctorsList, name='doctors-list'),
+    path('doctorUpdate/<int:doctor_id>', views.doctorUpdate, name='doctor-update'),
 ]

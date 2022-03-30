@@ -6,6 +6,10 @@ class Account(models.Model):
     display_picture = models.ImageField(null=True, blank=True, editable=True, upload_to="images/")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     accountType = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, default="")
+    department =  models.CharField(max_length=64, default="")
+    username = models.CharField(max_length=64, default="")
+    password = models.CharField(max_length=64, default="")
 
 
 class Claim(models.Model):
@@ -14,6 +18,7 @@ class Claim(models.Model):
     age = models.IntegerField()
     gender = models.CharField(max_length=50)
     practice = models.IntegerField()
+    member = models.IntegerField(default=0)
     description = models.CharField(max_length=50)
     tariff = models.IntegerField()
     approval = models.CharField(max_length=50)

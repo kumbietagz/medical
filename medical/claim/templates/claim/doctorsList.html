@@ -1,3 +1,29 @@
 {% extends 'claim/claimsHome.html' %}
 {% block body %}
+		<!-- Content
+		============================================= -->
+		<section id="content">
+
+			<div class="content-wrap">
+
+				<div class="container clearfix">
+
+                    {% for doctor in doctors %}
+					<div class="col_one_third {% if forloop.counter|divisibleby:'3' %}col_last{% endif %}">
+						<div class="team">
+							<div class="team-image">
+								<a href="{% url 'claim:doctor-update' doctor.id %}"><img src="{{doctor.display_picture.url}}" alt=""></a>
+							</div>
+							<div class="team-desc">
+								<div class="team-title"><h4>{{doctor.name}}</h4><span>{{doctor.department}}</span></div>
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+				</div>
+
+			</div>
+
+		</section><!-- #content end -->
+
 {%  endblock %}

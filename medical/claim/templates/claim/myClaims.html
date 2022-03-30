@@ -2,6 +2,7 @@
 {% block body %}
 
 <div class="list-group">
+  
     {% for claim in claims %}
     <a href="{% url 'claim:claim-update' claim.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
@@ -9,13 +10,13 @@
             <small class="text-muted">{{claim.updated_at}}</small>
         </div>
         <p class="mb-1">${{claim.claimed}}</p>
-        <small class="text-muted">Approval: 
+        <small class="text-muted">Status: 
             {% if claim.approval == "Approved"%}
-            <span class="badge badge-pill badge-success">Approved</span>
+            <span class="badge badge-pill badge-success">Submitted</span>
             {% elif claim.approval == "Pending" %}
-            <span class="badge badge-pill badge-warning">Pending</span>
+            <span class="badge badge-pill badge-success">Submitted </span>
             {% else %}
-            <span class="badge badge-pill badge-danger">Rejected</span>
+            <span class="badge badge-pill badge-success">Submitted</span>
             
             {% endif %}</small>
     </a>

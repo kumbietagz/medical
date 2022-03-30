@@ -1,3 +1,90 @@
 {% extends 'claim/claimsHome.html' %}
 {% block body %}
+
+
+<!-- Content
+		============================================= -->
+		<section id="content">
+
+			<div class="content-wrap bg-light">
+
+				<div class="container">
+
+					<div class="row justify-content-center">
+						<div class="col-lg-7 col-md-10">
+							<div class="card shadow-sm">
+								<div class="card-header">
+									<h4 class="mb-0">Update Doctor</h4>
+								</div>
+								<div class="card-body">
+
+									<div class="form-windget">
+
+										<!--<div class="form-result"></div>
+
+										<div class="form-process css3-spinner">
+											<div class="css3-spinner-double-bounce1"></div>
+											<div class="css3-spinner-double-bounce2"></div>
+										</div>-->
+
+<form class="nobottommargin" id="" name="template-contactform" action method="post" enctype="multipart/form-data">
+											
+    {% csrf_token %}
+    <div class="row">
+
+        <div class="col-12 bottommargin-sm">
+            <label for="template-contactform-name">Full Name<small class="text-danger">*</small></label>
+            <input type="text" id="template-contactform-name" name="name" value="{{doctor.name}}" class="form-control required" placeholder="Enter Full Name" />
+        </div>
+        <div class="col-12 bottommargin-sm">
+            <label for="template-contactform-name">Department<small class="text-danger">*</small></label>
+            <input type="text" id="template-contactform-name" name="department" value="{{doctor.department}}" class="form-control required" placeholder="Enter Department" />
+        </div>
+        <div class="col-12 bottommargin-sm">
+            <label for="template-contactform-name">Username<small class="text-danger">*</small></label>
+            <input type="text" id="template-contactform-name" name="username" value="{{doctor.username}}" class="form-control required" placeholder="Enter Username" />
+        </div>
+        <div class="col-12 bottommargin-sm">
+            <label for="template-contactform-password">Password:<small class="text-danger">*</small></label>
+            <input type="password" id="template-contactform-password" name="password" value="{{doctor.password}}" class="form-control" placeholder="Enter Password" />
+        </div>
+
+    
+        <div class="col-12 bottommargin-sm">
+            <div id="event_picture" class="kv-file-content">
+                <img src="{{ doctor.display_picture.url  }}" >
+                </div>
+            <label  for="template-contactform-upload">Change Image:</label><br>
+           
+            <input id="id_picture"  type="file" value='' name="picture" class="file file-loading" data-show-preview="true">
+            
+
+                
+        </div>
+          												
+
+        <div class="col-12 hidden">
+            <input type="text" id="template-contactform-botcheck" name="template-contactform-botcheck" value="" />
+        </div>
+        <div class="col-12">
+            <button type="submit" name="template-contactform-submit" class="btn btn-secondary btn-block btn-lg">Update</button>
+        </div>
+
+        <input type="hidden" name="prefix" value="template-contactform-">
+
+    </div>
+
+</form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section><!-- #content end -->
 {%  endblock %}

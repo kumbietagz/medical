@@ -17,21 +17,17 @@ trees_job = joblib.load('ml/extraTrees.pkl')
 forest_job = joblib.load('ml/randForest.pkl')
 
 
-
-
-
 # Create your views here.
 def doctorLogin(request):
-   # return render(request, 'claim/login.html')
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
         userId = User
         account = Account.objects.get(user = user)
-        print(user)
-        print (account)
-        print (account.accountType)
+        #print(user)
+        account_name = account.name
+        #print (account.accountType)
         if user is not None and account.accountType == 'Doctor':
             login(request, user)
             return HttpResponseRedirect(reverse("claim:doctor"))
@@ -70,6 +66,7 @@ def doctorHome(request):
             age = request.POST["age"]
             practice = request.POST["practice"]
             gender = request.POST["gender"]
+            member = request.POST["member"]
             if gender == "M":
                 genderNo = 0
             else:
@@ -112,11 +109,10 @@ def doctorHome(request):
             else:
                 forest_pred = "Possible Fraud"
 
-
-            newClaim = Claim.objects.create(doctor=account, claimed=claim, age=age, gender=gender, practice=practice, description=description, tariff=tariff, approval="Pending", knn=knn_pred, svm=svm_pred, logistics=logistic_pred, bayes=gauss_pred, forest=forest_pred, trees=trees_pred)
+            newClaim = Claim.objects.create(doctor=account, member= member, claimed=claim, age=age, gender=gender, practice=practice, description=description, tariff=tariff, approval="Pending", knn=knn_pred, svm=svm_pred, logistics=logistic_pred, bayes=gauss_pred, forest=forest_pred, trees=trees_pred)
             newClaim.save()
             return HttpResponseRedirect(reverse("claim:myclaims"))
-        return render(request, "claim/doctorHome.html")
+        return render(request, "claim/doctorHome.html", {"account": account})
     return render(request, "claim/login.html")
 
 def myClaims(request):
@@ -124,7 +120,7 @@ def myClaims(request):
     account = Account.objects.get(user = user)
     if account.accountType == 'Doctor':
         claims = Claim.objects.filter(doctor = account)
-        return render(request, "claim/myClaims.html", {'claims':claims})
+        return render(request, "claim/myClaims.html", {'claims':claims, 'account':account})
     return render(request, "claim/login.html")
 
 def claimsHome(request):
@@ -149,20 +145,77 @@ def claimDetail(request, claim_id):
     return render(request, "claim/login.html")
 
 def doctorsList(request):
-    return render(request, "claim/doctorsList.html")
-
+    user = request.user
+    account = Account.objects.get(user = user)
+    if account.accountType == 'Claims':
+        doctors = Account.objects.filter(accountType = 'Doctor')
+        return render(request, "claim/doctorsList.html", {"doctors":doctors})
+    return render(request, "claim/login.html")
 
 def addDoctor(request):
-    return render(request, "claim/addDoctor.html")
-    
+    user = request.user
+    account = Account.objects.get(user = user)
+    if account.accountType == 'Claims':
+        if request.method == "POST":
+            name = request.POST["name"]
+            department = request.POST["department"]
+            username = request.POST["username"]
+            password = request.POST["password"]
+            picture = request.FILES["picture"]
+            new_user = User.objects.create_user(username, password=password)
+            new_user.save()
+            doctor = Account.objects.create(user = new_user, accountType='Doctor', display_picture=picture, name=name, department=department, username=username, password=password) 
+            doctor.save()
+            return HttpResponseRedirect(reverse("claim:doctors-list"))
+        return render(request, "claim/addDoctor.html")
+    return render(request, "claim/login.html")
+
+def doctorUpdate(request, doctor_id):
+    user = request.user
+    account = Account.objects.get(user = user)
+    oldDoctor = Account.objects.get(id = doctor_id)
+    accountUser = oldDoctor.user
+    if account.accountType == 'Claims':
+        if request.method == "POST":
+            name = request.POST["name"]
+            department = request.POST["department"]
+            username = request.POST["username"]
+            password = request.POST["password"]
+
+            for key in request.FILES:
+                if key == 'picture':
+
+                    oldDoctor.display_picture = request.FILES[key]
+                   
 
 
-    
+            
+           # print(type(request.FILES.picture))
+            #if  request.POST.picture  == '':
+             #   picture = ''
+            #else:
+             #   picture = request.FILES["picture"]
+              #  oldDoctor.picture = picture
+           
+            oldDoctor.name = name
+            oldDoctor.department = department
+            oldDoctor.username = username
+            oldDoctor.password = password
+
+            accountUser.username = username
+            accountUser.set_password(password)
+
+            accountUser.save()
+            
+            oldDoctor.save()
+            return HttpResponseRedirect(reverse("claim:doctors-list"))
+        return render(request, "claim/doctorUpdate.html", {"doctor":oldDoctor} )
+    return render(request, "claim/login.html")
+
 def doctorHomeUpdate(request, claim_id):
     user = request.user
     account = Account.objects.get(user = user)
     oldClaim = Claim.objects.get(id =claim_id)
-    print(oldClaim)
     
     if account.accountType == 'Doctor':
         
@@ -172,6 +225,7 @@ def doctorHomeUpdate(request, claim_id):
             age = request.POST["age"]
             practice = request.POST["practice"]
             gender = request.POST["gender"]
+            member = request.POST["member"]
             if gender == "M":
                 genderNo = 0
             else:
@@ -219,6 +273,7 @@ def doctorHomeUpdate(request, claim_id):
             oldClaim.age = age
             oldClaim.gender = gender
             oldClaim.practice = practice
+            oldClaim.member = member
             oldClaim.description = description
             oldClaim.tariff = tariff
             oldClaim.approval = "Pending"
@@ -232,5 +287,5 @@ def doctorHomeUpdate(request, claim_id):
 
             return HttpResponseRedirect(reverse("claim:myclaims"))
             
-        return render(request, "claim/myClaimUpdate.html", {"claims":oldClaim})
+        return render(request, "claim/myClaimUpdate.html", {"claims":oldClaim, 'account':account})
     return render(request, "claim/login.html")
