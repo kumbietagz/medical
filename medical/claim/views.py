@@ -24,16 +24,18 @@ def doctorLogin(request):
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
         userId = User
-        account = Account.objects.get(user = user)
-        #print(user)
-        account_name = account.name
-        #print (account.accountType)
-        if user is not None and account.accountType == 'Doctor':
-            login(request, user)
-            return HttpResponseRedirect(reverse("claim:doctor"))
-        else:
-            return render(request, "claim/login.html")
-    return render(request, "claim/login.html")
+        message = "Incorrect username or password."
+        if user is not None:
+            account = Account.objects.get(user = user)
+            #print(user)
+            account_name = account.name
+            #print (account.accountType)
+            if user is not None and account.accountType == 'Doctor':
+                login(request, user)
+                return HttpResponseRedirect(reverse("claim:doctor"))
+            else:
+                return render(request, "claim/login.html", {"message":"Account is for Claims."})
+    return render(request, "claim/login.html", {"message":message})
 
 def claimsLogin(request):
     #return render(request, 'claim/login.html')
@@ -41,13 +43,15 @@ def claimsLogin(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
-        account = Account.objects.get(user = user)
-        if user is not None and account.accountType == 'Claims':
-            login(request, user)
-            return HttpResponseRedirect(reverse("claim:claims"))
-        else:
-            return render(request, "claim/login.html")
-    return render(request, "claim/login.html")
+        message = "Incorrect username or password."
+        if user is not None:
+            account = Account.objects.get(user = user)
+            if user is not None and account.accountType == 'Claims':
+                login(request, user)
+                return HttpResponseRedirect(reverse("claim:claims"))
+            else:
+                return render(request, "claim/login.html", {"message":"Account is for Doctor."})
+    return render(request, "claim/login.html", {"message":message})
 
 def logoutView(request):
     logout(request)
@@ -164,7 +168,7 @@ def addDoctor(request):
             picture = request.FILES["picture"]
             new_user = User.objects.create_user(username, password=password)
             new_user.save()
-            doctor = Account.objects.create(user = new_user, accountType='Doctor', display_picture=picture, name=name, department=department, username=username, password=password) 
+            doctor = Account.objects.create(user = new_user, accountType='Doctor', display_picture=picture, name=name, department=department, username=username) 
             doctor.save()
             return HttpResponseRedirect(reverse("claim:doctors-list"))
         return render(request, "claim/addDoctor.html")
@@ -200,10 +204,8 @@ def doctorUpdate(request, doctor_id):
             oldDoctor.name = name
             oldDoctor.department = department
             oldDoctor.username = username
-            oldDoctor.password = password
 
             accountUser.username = username
-            accountUser.set_password(password)
 
             accountUser.save()
             

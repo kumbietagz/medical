@@ -9,7 +9,6 @@ class Account(models.Model):
     name = models.CharField(max_length=64, default="")
     department =  models.CharField(max_length=64, default="")
     username = models.CharField(max_length=64, default="")
-    password = models.CharField(max_length=64, default="")
 
 
 class Claim(models.Model):

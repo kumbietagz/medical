@@ -16,12 +16,12 @@
 						<div class="card divcenter noradius noborder" style="max-width: 400px; background-color: rgba(255,255,255,0.93);">
 							<div class="card-body" style="padding: 40px;">
 								<div class="tabs divcenter nobottommargin clearfix" id="tab-login-claims" style="max-width: 500px;">
-
+									
 									<ul class="tab-nav tab-nav2 center clearfix">
 										<li class="inline-block"><a href="#tab-login">Doctor</a></li>
 										<li class="inline-block"><a href="#tab-register">Claims Assessor</a></li>
 									</ul>
-			
+									
 									<div class="tab-container">
 			
 										<div class="tab-content clearfix" id="tab-login">
@@ -50,7 +50,7 @@
 												</div>
 											</div>
 										</div>
-			
+									
 										<div class="tab-content clearfix" id="tab-register">
 											<div class="card nobottommargin">
 												<div class="card-body" style="padding: 40px;">
@@ -77,6 +77,8 @@
 												</div>
 											</div>
 										</div>
+										<p  class="center" style="color:red;">
+											{% if message %}{{message}}{% endif %}</p>
 			
 									</div>
 			
