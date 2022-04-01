@@ -1,5 +1,5 @@
 {% extends 'claim/claimsHome.html' %}
-{% block title %}All Claims{% endblock %}
+{% block title %}Search{% endblock %}
 {% block body %}
 			<!-- Top Search
 						============================================= -->
@@ -14,7 +14,7 @@
 							</form>
 						</div><!-- #top-search end -->
 <div class="list-group">
-    {% for claim in claims %}
+    {% for claim in search %}
     <a href="{% url 'claim:detail' claim.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
             <h4 class="mb-2">{{claim.doctor.name}}</h4>

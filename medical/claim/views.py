@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from .models import Account, Claim
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 import joblib
 
@@ -18,7 +19,18 @@ forest_job = joblib.load('ml/randForest.pkl')
 
 
 # Create your views here.
+
+def search(request):
+    user = request.user
+    account = Account.objects.get(user = user)
+    query = request.GET["q"]
+    if account.accountType == 'Claims':
+        search = Claim.objects.filter(Q(description__icontains=query)|Q(doctor__name__icontains=query))
+        return render(request, "claim/search.html", {"search":search})
+    return render(request, "claim/login.html")
+
 def doctorLogin(request):
+    message=""
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -38,6 +50,7 @@ def doctorLogin(request):
     return render(request, "claim/login.html", {"message":message})
 
 def claimsLogin(request):
+    message=""
     #return render(request, 'claim/login.html')
     if request.method == "POST":
         username = request.POST["username"]

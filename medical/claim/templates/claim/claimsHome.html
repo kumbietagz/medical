@@ -2,6 +2,10 @@
 {% block side %}
 side-header
         {% endblock %}
+		{% block titlebase %}
+		{% block title %}
+		{% endblock %}
+		{% endblock %}
 
 {% block content %}
 
@@ -30,17 +34,15 @@ side-header
 							<li><a href="{% url 'claim:claims' %}"><div>Claims List</div></a></li>
                             <li><a href="{% url 'claim:add-doctor' %}"><div>Add Doctor</div></a></li>
                             <li><a href="{% url 'claim:doctors-list' %}"><div>Doctors</div></a></li>
-							
+							<div class="divider divider-center"><a  data-scrollto="#header"><i class="icon-settings"></i></a></div>
+							<li><a href="{% url 'claim:logout' %}"><div>Logout</div></a></li>
+
+				
 				
 						</ul>
 
 					</nav><!-- #primary-menu end -->
 
-					<div class="clearfix d-none d-lg-block">
-                        <ul style="list-style: none;">
-                            <li><a href="{% url 'claim:logout' %}"><div>Logout</div></a></li>
-                        </ul>
-					</div>
 
 				</div>
 

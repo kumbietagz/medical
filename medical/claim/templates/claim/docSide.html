@@ -2,6 +2,10 @@
 {% block side %}
 side-header
         {% endblock %}
+{% block titlebase %}
+{% block title %}
+{% endblock %}
+{% endblock %}
 
 {% block content %}
 
@@ -16,11 +20,18 @@ side-header
 					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
                     			<!-- Logo
 					============================================= -->
-					<div id="logo" class="nobottomborder ">
-						<img src="{{ account.display_picture.url }}" class="alignleft img-circle img-thumbnail notopmargin nobottommargin" alt="Avatar" style="max-width: 84px;">
-						<h4>Welcome, {{account.name}}</h4>
+
+
+								<!-- Logo
+					============================================= -->
+					<div id="logo" class="nobottomborder">
+						<a  class="standard-logo" ><img src="{{ account.display_picture.url }}" class="alignleft img-circle img-thumbnail notopmargin nobottommargin" alt="Avatar" style="max-width: 84px;">
+							<h4>Welcome, {{account.name}}</h4>
+						</a>
+						
 					</div><!-- #logo end -->
-					
+
+				
 					
 
 					<!-- Primary Navigation
@@ -30,16 +41,15 @@ side-header
 						<ul>
 							<li><a href="{% url 'claim:doctor'%}"><div>Add Claim</div></a></li>
                             <li><a href="{% url 'claim:myclaims' %}"><div>My Claims</div></a></li>
+							<div class="divider divider-center"><a  data-scrollto="#header"><i class="icon-settings"></i></a></div>
+							<li><a href="{% url 'claim:logout' %}"><div>Logout</div></a></li>
+
 				
 						</ul>
 
 					</nav><!-- #primary-menu end -->
 
-					<div class="clearfix d-none d-lg-block">
-                        <ul style="list-style: none;">
-                            <li><a href="{% url 'claim:logout' %}"><div>Logout</div></a></li>
-                        </ul>
-					</div>
+				
 
 				</div>
 

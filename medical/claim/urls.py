@@ -12,6 +12,7 @@ urlpatterns = [
     path('claims', views.claimsHome, name='claims'),
     path('myclaims', views.myClaims, name='myclaims'),
     path('claimDetail/<int:claim_id>', views.claimDetail, name='detail'),
+    path('claimSearch', views.search, name='search'),
     path('addDoctor', views.addDoctor, name='add-doctor'),
     path('doctorsList', views.doctorsList, name='doctors-list'),
     path('doctorUpdate/<int:doctor_id>', views.doctorUpdate, name='doctor-update'),
