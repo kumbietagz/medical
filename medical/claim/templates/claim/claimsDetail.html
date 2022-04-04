@@ -71,12 +71,13 @@
                                                 <div class="form-row center" >
                                                     <div class="form-group col-md-12" >
                                                         <label for="inputEmail4 " >Assessment Prediction</label>
-                                                        {% if claim.trees == "Proceed"%}
+                                                        {% if claim.trees == "Proceed" and claim.forest == "Proceed" %}
                                                         <h3><span class="badge badge-pill badge-success">Genuine</span></h3>
                                                         {% else %}
                                                         <h3><span class="badge badge-pill badge-warning">Possible Fraud</span></h3>
                                                         {% endif %}
                                                     </div>
+                                                   
                 
                                                 </div>
                                   
