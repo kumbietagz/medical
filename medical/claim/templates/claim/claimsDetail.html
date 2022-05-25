@@ -71,10 +71,10 @@
                                                 <div class="form-row center" >
                                                     <div class="form-group col-md-12" >
                                                         <label for="inputEmail4 " >Assessment Prediction</label>
-                                                        {% if claim.trees == "Proceed" and claim.forest == "Proceed" %}
-                                                        <h3><span class="badge badge-pill badge-success">Genuine</span></h3>
+                                                        {% if claim.trees == "Genuine" and claim.forest == "Genuine" %}
+                                                        <h3><span class="badge badge-pill badge-success">Genuine {{claim.confidence|floatformat:0}}% </span></h3>
                                                         {% else %}
-                                                        <h3><span class="badge badge-pill badge-warning">Possible Fraud</span></h3>
+                                                        <h3><span class="badge badge-pill badge-warning">Possible Fraud {{claim.confidence|floatformat:0}}%</span></h3>
                                                         {% endif %}
                                                     </div>
                                                    
@@ -85,7 +85,7 @@
                                                 <div class="col-12 bottommargin-sm ">
 													<label for="template-contactform-default-select">Approval Status:</label>
 													<select id="template-contactform-default-select" name="approval" class="form-control" required>
-														<option value="Appending" {% if claim.approval == 'Pennding' %}selected {% endif %}>Pending</option>
+														<option value="Pending" {% if claim.approval == 'Pending' %}selected {% endif %}>Pending</option>
 														<option value="Approved" {% if claim.approval == 'Approved' %}selected {% endif %}>Approved</option>
 														<option value="Rejected" {% if claim.approval == 'Rejected' %}selected {% endif %}>Rejected</option>
 													</select>

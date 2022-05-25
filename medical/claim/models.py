@@ -21,10 +21,7 @@ class Claim(models.Model):
     description = models.CharField(max_length=50)
     tariff = models.IntegerField()
     approval = models.CharField(max_length=50)
-    knn = models.CharField(max_length=50)
-    svm = models.CharField(max_length=50)
-    logistics = models.CharField(max_length=50)
-    bayes = models.CharField(max_length=50)
+    confidence = models.FloatField(blank=True, null=True)
     trees = models.CharField(max_length=50)
     forest = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -32,3 +29,4 @@ class Claim(models.Model):
     
     class Meta:
         ordering = ('-updated_at',)
+

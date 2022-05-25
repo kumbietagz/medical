@@ -13,25 +13,31 @@
 								</div>
 							</form>
 						</div><!-- #top-search end -->
-<div class="list-group">
-    {% for claim in search %}
-    <a href="{% url 'claim:detail' claim.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-            <h4 class="mb-2">{{claim.doctor.name}}</h4>
-            <small class="text-muted">{{claim.updated_at}}</small>
-        </div>
-        <p class="mb-1">${{claim.claimed}}</p>
-        <small class="text-muted">Approval: 
-            {% if claim.approval == "Approved"%}
-            <span class="badge badge-pill badge-success">Approved</span>
-            {% elif claim.approval == "Pending" %}
-            <span class="badge badge-pill badge-warning">Pending</span>
-            {% else %}
-            <span class="badge badge-pill badge-danger">Rejected</span>
-            
-            {% endif %}</small>
-    </a>
-    {% endfor %}
-</div>
+                        <div class="list-group">
+                            {% for claim in search %}
+                            <a href="{% url 'claim:detail' claim.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h4 class="mb-2">{{claim.doctor.name}}</h4>
+                                    <small class="text-muted">{{claim.updated_at}}</small>
+                                </div>
+                                <p class="mb-1">${{claim.claimed}}</p>
+                                <small class="text-muted">Approval: 
+                                    {% if claim.approval == "Approved"%}
+                                    <span class="badge badge-pill badge-success">Approved</span>
+                                    {% elif claim.approval == "Pending" %}
+                                    <span class="badge badge-pill badge-warning">Pending</span>
+                                    {% else %}
+                                    <span class="badge badge-pill badge-danger">Rejected</span>
+                                    
+                                    {% endif %}</small>
+                                    {% if claim.trees == "Genuine" and claim.forest == "Genuine" %}
+                                    <span class="badge badge-secondary float-right badge-success" style="margin-top: 3px;">Genuine {{claim.confidence|floatformat:0}}%</span>
+                                    {% else %}
+                                    <span class="badge badge-secondary float-right badge-warning" style="margin-top: 3px;">Possible Fraud {{claim.confidence|floatformat:0}}%</span>
+                                    {% endif %}
+                                    
+                            </a>
+                            {% endfor %}
+                        </div>
 
 {% endblock %}

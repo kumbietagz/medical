@@ -10,10 +10,6 @@ from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 import joblib
 
-svm_job = joblib.load('ml/svm.pkl')
-knn_job = joblib.load('ml/knn.pkl')
-logistic_job = joblib.load('ml/logistics.pkl')
-gauss_job = joblib.load('ml/gauss.pkl')
 trees_job = joblib.load('ml/extraTrees.pkl')
 forest_job = joblib.load('ml/randForest.pkl')
 
@@ -25,7 +21,7 @@ def search(request):
     account = Account.objects.get(user = user)
     query = request.GET["q"]
     if account.accountType == 'Claims':
-        search = Claim.objects.filter(Q(description__icontains=query)|Q(doctor__name__icontains=query))
+        search = Claim.objects.filter(Q(description__icontains=query)|Q(doctor__name__icontains=query)|Q( Q(forest__icontains=query)&Q(trees__icontains=query) ) | Q(approval__icontains=query)  )
         return render(request, "claim/search.html", {"search":search})
     return render(request, "claim/login.html")
 
@@ -94,39 +90,31 @@ def doctorHome(request):
             else:
                 descriptionNo = 1
 
-            svm_pred = svm_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            knn_pred = knn_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            logistic_pred = logistic_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            gauss_pred = gauss_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            svm_pred = svm_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
             trees_pred = trees_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
             forest_pred = forest_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            if knn_pred == 0:
-                knn_pred = "Proceed"
+
+            if trees_pred and forest_pred == 1:
+                trees_con = trees_job.predict_proba([[age, genderNo, claim, practice, descriptionNo, tariff]])[0][1]
+                forest_con = forest_job.predict_proba([[age, genderNo, claim, practice, descriptionNo, tariff]])[0][1]
+                confidence = ((trees_con + forest_con)/2)*100
             else:
-                knn_pred = "Possible Fraud"
-            if svm_pred == 1:
-                svm_pred = "Proceed"
-            else:
-                svm_pred = "Possible Fraud"
-            if logistic_pred == 1:
-                logistic_pred = "Proceed"
-            else:
-                logistic_pred = "Possible Fraud"
-            if gauss_pred == 1:
-                gauss_pred = "Proceed"
-            else:
-                gauss_pred = "Possible Fraud"
+                trees_con = trees_job.predict_proba([[age, genderNo, claim, practice, descriptionNo, tariff]])[0][0]
+                forest_con = forest_job.predict_proba([[age, genderNo, claim, practice, descriptionNo, tariff]])[0][0]
+                confidence = ((trees_con + forest_con)/2)*100
+
+           
             if trees_pred == 1:
-                trees_pred = "Proceed"
+                trees_pred = "Genuine"
             else:
                 trees_pred = "Possible Fraud"
             if forest_pred == 1:
-                forest_pred = "Proceed"
+                forest_pred = "Genuine"
             else:
                 forest_pred = "Possible Fraud"
 
-            newClaim = Claim.objects.create(doctor=account, member= member, claimed=claim, age=age, gender=gender, practice=practice, description=description, tariff=tariff, approval="Pending", knn=knn_pred, svm=svm_pred, logistics=logistic_pred, bayes=gauss_pred, forest=forest_pred, trees=trees_pred)
+            
+
+            newClaim = Claim.objects.create(doctor=account, member= member, claimed=claim, age=age, gender=gender, confidence=confidence, practice=practice, description=description, tariff=tariff, approval="Pending", forest=forest_pred, trees=trees_pred)
             newClaim.save()
             return HttpResponseRedirect(reverse("claim:myclaims"))
         return render(request, "claim/doctorHome.html", {"account": account})
@@ -251,35 +239,24 @@ def doctorHomeUpdate(request, claim_id):
             else:
                 descriptionNo = 1
 
-            svm_pred = svm_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            knn_pred = knn_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            logistic_pred = logistic_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            gauss_pred = gauss_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            svm_pred = svm_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
             trees_pred = trees_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
             forest_pred = forest_job.predict([[age, genderNo, claim, practice, descriptionNo, tariff]])[0]
-            if knn_pred == 0:
-                knn_pred = "Proceed"
+
+            if trees_pred and forest_pred == 1:
+                trees_con = trees_job.predict_proba([[age, genderNo, claim, practice, descriptionNo, tariff]])[0][1]
+                forest_con = forest_job.predict_proba([[age, genderNo, claim, practice, descriptionNo, tariff]])[0][1]
+                confidence = ((trees_con + forest_con)/2)*100
             else:
-                knn_pred = "Possible Fraud"
-            if svm_pred == 1:
-                svm_pred = "Proceed"
-            else:
-                svm_pred = "Possible Fraud"
-            if logistic_pred == 1:
-                logistic_pred = "Proceed"
-            else:
-                logistic_pred = "Possible Fraud"
-            if gauss_pred == 1:
-                gauss_pred = "Proceed"
-            else:
-                gauss_pred = "Possible Fraud"
+                trees_con = trees_job.predict_proba([[age, genderNo, claim, practice, descriptionNo, tariff]])[0][0]
+                forest_con = forest_job.predict_proba([[age, genderNo, claim, practice, descriptionNo, tariff]])[0][0]
+                confidence = ((trees_con + forest_con)/2)*100
+            
             if trees_pred == 1:
-                trees_pred = "Proceed"
+                trees_pred = "Genuine"
             else:
                 trees_pred = "Possible Fraud"
             if forest_pred == 1:
-                forest_pred = "Proceed"
+                forest_pred = "Genuine"
             else:
                 forest_pred = "Possible Fraud"
 
@@ -288,14 +265,12 @@ def doctorHomeUpdate(request, claim_id):
             oldClaim.age = age
             oldClaim.gender = gender
             oldClaim.practice = practice
+            oldClaim.confidence = confidence
             oldClaim.member = member
             oldClaim.description = description
             oldClaim.tariff = tariff
             oldClaim.approval = "Pending"
-            oldClaim.knn = knn_pred
-            oldClaim.svm = svm_pred
-            oldClaim.logistics = logistic_pred
-            oldClaim.bayes = gauss_pred
+            
             oldClaim.forest = forest_pred
             oldClaim.trees = trees_pred
             oldClaim.save()
